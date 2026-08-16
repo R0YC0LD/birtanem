@@ -1,0 +1,204 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* themes.ts calisana kadarki ilk boyama — FOUC olmasin */
+    --bg-0: 18 10 24;
+    --bg-1: 28 16 36;
+    --bg-2: 38 22 48;
+    --bg-3: 52 30 62;
+    --line: 66 40 76;
+    --ink: 246 239 233;
+    --ink-dim: 200 182 192;
+    --ink-mute: 142 124 136;
+    --accent: 227 106 133;
+    --accent-soft: 240 168 186;
+    --gold: 233 199 154;
+    --lav: 183 155 232;
+    --wine: 122 31 61;
+    --r-common: 154 163 174;
+    --r-uncommon: 127 184 154;
+    --r-rare: 126 166 224;
+    --r-epic: 181 138 224;
+    --r-legendary: 224 168 92;
+    --r-secret: 227 106 133;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-bg-0 text-ink font-sans antialiased;
+    margin: 0;
+    overscroll-behavior-y: none;
+    background-image:
+      radial-gradient(90rem 60rem at 12% -12%, rgb(var(--wine) / 0.5), transparent 60%),
+      radial-gradient(70rem 50rem at 100% 0%, rgb(var(--lav) / 0.22), transparent 55%),
+      radial-gradient(60rem 60rem at 50% 120%, rgb(var(--accent) / 0.18), transparent 60%);
+    background-attachment: fixed;
+  }
+
+  /* Odak halkasi — klavye kullanicilari icin net, fare kullanicilari icin sessiz */
+  :focus-visible {
+    outline: 2px solid rgb(var(--accent));
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: rgb(var(--accent) / 0.32);
+    color: rgb(var(--ink));
+  }
+
+  /* Ozel kaydirma cubugu */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--line)) transparent;
+  }
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--line));
+    border-radius: 999px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--accent) / 0.6);
+    background-clip: content-box;
+  }
+
+  input[type='range'] {
+    accent-color: rgb(var(--accent));
+  }
+}
+
+@layer components {
+  /* Kart yuzeyi — her yerde cam degil, katmanli yuzey */
+  .surface {
+    @apply rounded-lg border border-line/70 bg-bg-1/80 shadow-card;
+  }
+
+  .surface-glass {
+    @apply rounded-lg border border-white/10 bg-white/[0.045] backdrop-blur-xl;
+  }
+
+  .surface-flat {
+    @apply rounded-lg border border-line/50 bg-bg-2/50;
+  }
+
+  .hairline {
+    @apply border-b border-line/50;
+  }
+
+  .display {
+    @apply font-display tracking-[-0.02em];
+  }
+
+  .label-xs {
+    @apply text-[11px] font-medium uppercase tracking-[0.16em] text-ink-mute;
+  }
+
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Ust katmanlarda kullanilan ince grain */
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+  }
+
+  .shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40%;
+    background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.14), transparent);
+    transform: translateX(-120%);
+    pointer-events: none;
+  }
+  .shine:hover::before {
+    animation: shimmer 1.1s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .vignette::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(120% 90% at 50% 40%, transparent 55%, rgb(0 0 0 / 0.45) 100%);
+  }
+}
+
+@layer utilities {
+  .safe-bottom {
+    padding-bottom: max(env(safe-area-inset-bottom), 0px);
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .touch-none-y {
+    touch-action: none;
+  }
+}
+
+/* Sistem veya kullanici hareket azaltma istediginde */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+html[data-reduced-motion='true'] *,
+html[data-reduced-motion='true'] *::before,
+html[data-reduced-motion='true'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
+/* Ozel imlec aktifken sistem imlecini gizle (sadece isaretlenmis kokte) */
+html[data-cursor='custom'] {
+  cursor: none;
+}
+html[data-cursor='custom'] * {
+  cursor: none !important;
+}

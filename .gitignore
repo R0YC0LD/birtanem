@@ -39,3 +39,7 @@ yarn-error.log*
 /outputs/
 /work/
 /site.tar.gz
+
+# buseverse (Vite)
+buseverse/node_modules/
+buseverse/dist/
