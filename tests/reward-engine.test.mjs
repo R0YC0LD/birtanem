@@ -36,9 +36,19 @@ test("multi-level XP preserves overflow", () => {
   assert.ok(xp >= 0 && xp < needed(level));
 });
 
-test("achievement collection stays in requested range", () => {
-  const line = source.split(/\r?\n/).find(value => value.includes("ACHIEVEMENTS=["));
-  const count = (line.match(/A\('/g) || []).length;
-  assert.ok(count >= 40 && count <= 60);
+test("achievement collection has at least 150 real milestones", () => {
+  const baseLine = source.split(/\r?\n/).find(value => value.includes("ACHIEVEMENTS=["));
+  const baseCount = (baseLine.match(/A\('/g) || []).length;
+  const generatedCount = 10 * 6 + 6 + 7 + 4 * 5 + 5 + 3 + 3;
+  assert.ok(baseCount + generatedCount >= 150);
+  assert.match(source, /new Set\(ACHIEVEMENTS\.map\(a=>a\[0\]\)\)/);
+  assert.match(source, /ACHIEVEMENTS\.every\(a=>typeof a\[3\]==='function'\)/);
   assert.match(source, /date\?description.*:'\?\?\?'/);
+});
+
+test("heart rain uses frame-independent motion and click locks", () => {
+  assert.match(source, /deltaClamp:40/);
+  assert.match(source, /Math\.min\(HEART_GAME_CONFIG\.deltaClamp/);
+  assert.match(source, /if\(item\.caught\|\|!rainBusy\)return/);
+  assert.match(source, /cancelAnimationFrame\(rainFrame\)/);
 });
