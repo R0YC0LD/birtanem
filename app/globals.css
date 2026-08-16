@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+:root { --ink:#f7eee7; --muted:#ab9190; --rose:#e9778d; --wine:#16080e; }
+* { box-sizing:border-box; }
+html, body { margin:0; min-height:100%; background:var(--wine); color:var(--ink); }
+body { font-family:Arial, Helvetica, sans-serif; overflow-x:hidden; }
+button { font:inherit; }
+main { min-height:100svh; position:relative; overflow:hidden; background:radial-gradient(circle at 75% 25%,#3a101d 0,transparent 34%),radial-gradient(circle at 20% 90%,#260c16 0,transparent 36%),#11070b; }
+.noise { position:fixed; inset:0; pointer-events:none; opacity:.035; z-index:5; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 140 140' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.8'/%3E%3C/svg%3E"); }
+.cursor-glow { width:280px; height:280px; border-radius:50%; background:rgba(220,91,118,.07); filter:blur(18px); position:fixed; transform:translate(-50%,-50%); pointer-events:none; z-index:1; }
+.intro { min-height:100svh; display:flex; flex-direction:column; justify-content:center; padding:clamp(30px,8vw,120px); position:relative; z-index:2; animation:arrive 1.2s ease both; }
+.eyebrow { color:var(--rose); letter-spacing:.32em; font-size:10px; margin:0 0 25px; }
+h1 { font-family:Georgia,serif; font-weight:400; letter-spacing:-.05em; font-size:clamp(55px,10vw,132px); line-height:.85; margin:0; max-width:900px; }
+.intro-copy { color:var(--muted); line-height:1.75; margin:38px 0 28px; font-size:14px; }
+.open-button { width:145px; color:var(--ink); padding:14px 0; border:0; border-bottom:1px solid rgba(255,255,255,.25); background:transparent; display:flex; justify-content:space-between; cursor:pointer; transition:.3s; }
+.open-button:hover { width:175px; color:#ff9eb1; border-color:#ff9eb1; }
+.open-button i { font-style:normal; }
+.signature { position:absolute; right:5vw; bottom:5vh; font-family:Georgia,serif; font-style:italic; color:#795f64; font-size:13px; }
+.story { min-height:100svh; position:relative; display:grid; place-items:center; z-index:2; animation:arrive 1s ease both; }
+header { position:absolute; top:28px; left:clamp(22px,5vw,70px); right:clamp(22px,5vw,70px); display:flex; justify-content:space-between; font:11px/1 Arial; letter-spacing:.2em; color:#8e7379; z-index:3; }
+header button { color:inherit; border:0; background:none; cursor:pointer; letter-spacing:.1em; }
+canvas { width:min(780px,96vw); height:min(720px,82svh); }
+.coordinates { position:absolute; inset:20% auto auto 5vw; display:flex; flex-direction:column; gap:8px; color:#60454c; font-size:10px; letter-spacing:.18em; }
+.message { position:absolute; text-align:center; opacity:0; transform:translateY(12px); transition:1.2s ease; pointer-events:none; }
+.message.visible { opacity:1; transform:none; pointer-events:auto; }
+.message p { margin:0 0 6px; color:#ae9297; font:italic 15px Georgia,serif; }
+.message h2 { margin:0; font:400 clamp(30px,5vw,58px)/1 Georgia,serif; letter-spacing:-.04em; }
+.message button { margin-top:25px; border:0; background:none; color:#ad818a; font-size:11px; letter-spacing:.1em; cursor:pointer; }
+.message button:hover { color:#ff9bb0; }
+.counter { position:absolute; right:5vw; top:43%; color:#886069; font:30px Georgia,serif; text-align:right; }
+.counter small { display:block; width:110px; color:#5f474c; font:9px/1.4 Arial; letter-spacing:.08em; margin-top:5px; }
+footer { position:absolute; bottom:24px; left:5vw; right:5vw; display:flex; align-items:center; justify-content:space-between; color:#73555b; font-size:9px; letter-spacing:.25em; }
+footer p { font:italic 13px Georgia,serif; letter-spacing:0; color:#96757c; }
+@keyframes arrive { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:none; } }
+@media (max-width:600px) {
+  .intro { justify-content:flex-end; padding:0 25px 14vh; }
+  h1 { font-size:58px; }
+  .signature { right:25px; bottom:4vh; }
+  canvas { height:70svh; transform:scale(1.18); }
+  .coordinates,.counter { display:none; }
+  .message { top:41%; }
+  .message h2 { font-size:34px; }
+  footer { bottom:18px; }
+}
+@media (prefers-reduced-motion:reduce) { *,*::before,*::after { scroll-behavior:auto!important; transition-duration:.01ms!important; animation-duration:.01ms!important; } }
