@@ -24,6 +24,15 @@ const namePoints: Point[] = "BUSE".split("").flatMap((letter, index) =>
   letters[letter].map(([x, y]) => ({ x: 30 + index * 11 + x * 2.4, y: 77 + y * 2.5, kind: "name" as const }))
 );
 const allPoints = [...heartPoints, ...namePoints];
+const verses = [
+  ["B", "Bir ömre sığmayacak kadar çok seviyorum seni."],
+  ["U", "Uzak ihtimalleri bile seninle güzel buluyorum."],
+  ["S", "Sesin değince dünyamın bütün gürültüsü susuyor."],
+  ["E", "En güzel yarınım, bugünümde açan çiçeğimsin."],
+  ["N", "Nasıl anlatılır bilmiyorum; kalbim hep sana dönüyor."],
+  ["U", "Uykudan önceki son, sabahımdaki ilk düşüncemsin."],
+  ["R", "Ruhumun eve döndüğü yer sensin, Busenur."],
+];
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -95,6 +104,15 @@ export default function Home() {
     return () => window.removeEventListener("pointermove", move);
   }, []);
 
+  useEffect(() => {
+    if (!started) return;
+    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add("revealed");
+    }), { threshold: 0.55 });
+    document.querySelectorAll(".verse").forEach(el => observer.observe(el));
+    return () => observer.disconnect();
+  }, [started]);
+
   return (
     <main className={started ? "is-started" : ""}>
       <div className="noise" /><div className="cursor-glow" />
@@ -108,7 +126,7 @@ export default function Home() {
         </section>
       )}
 
-      {started && (
+      {started && (<>
         <section className="story" aria-live="polite">
           <header><span>B × ∞</span><button onClick={() => setSoundOn(v => !v)} aria-label="Sesi aç veya kapat">{soundOn ? "ses açık" : "sessiz"}</button></header>
           <div className="coordinates"><span>41°01′</span><span>29°00′</span></div>
@@ -119,9 +137,21 @@ export default function Home() {
             <button onClick={draw}>bir daha çiz <span>↻</span></button>
           </div>
           <div className="counter">{finished ? allPoints.length : "…"}<small>küçük nokta, tek bir isim.</small></div>
-          <footer><span>BUSE</span><p>İyi ki varsın.</p><span>♥</span></footer>
+          <footer><span>BUSENUR</span><p>aşağı kaydır ↓</p><span>♥</span></footer>
         </section>
-      )}
+        <section className="poetry" aria-label="Busenur için akrostiş">
+          <div className="poetry-head"><span>07 DİZE · TEK BİR HİS</span><h2>Sana söylemek<br />istediklerim var.</h2></div>
+          {verses.map(([letter, line], index) => (
+            <article className="verse" key={`${letter}-${index}`}>
+              <span className="verse-no">0{index + 1}</span>
+              <span className="letter">{letter}</span>
+              <p>{line}</p>
+              <i>{"BUSENUR".slice(0, index + 1)}</i>
+            </article>
+          ))}
+          <div className="finale"><span>ve bütün yollar yine aynı yere çıkıyor</span><h2>BUSENUR</h2><p>Seni, kelimelerin yetmediği yerden seviyorum.</p><b>♥</b></div>
+        </section>
+      </>)}
     </main>
   );
 }
