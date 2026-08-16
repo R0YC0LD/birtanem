@@ -35,3 +35,10 @@ test("multi-level XP preserves overflow", () => {
   assert.ok(level > 3);
   assert.ok(xp >= 0 && xp < needed(level));
 });
+
+test("achievement collection stays in requested range", () => {
+  const line = source.split(/\r?\n/).find(value => value.includes("ACHIEVEMENTS=["));
+  const count = (line.match(/A\('/g) || []).length;
+  assert.ok(count >= 40 && count <= 60);
+  assert.match(source, /date\?description.*:'\?\?\?'/);
+});
