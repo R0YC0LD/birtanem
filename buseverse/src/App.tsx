@@ -141,12 +141,17 @@ export default function App() {
           <div className="relative z-10 min-h-screen lg:pl-[84px]">
             {view !== 'finale' && <TopBar />}
             <main className="pb-[calc(theme(spacing.nav)+1rem)] lg:pb-8">
+              {/*
+                Bilincli olarak exit animasyonu yok: mode="wait" cikis animasyonunun
+                bitmesini bekler, sekme arka plandayken rAF durdugu icin gecis
+                asili kalabilir. Girisi animasyonlu, cikisi anlik tutmak hem daha
+                hizli hissettiriyor hem de bu riski tamamen kaldiriyor.
+              */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={view}
                   initial={{ opacity: 0, y: 12, scale: 0.995 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -8, scale: 0.997 }}
                   transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
                 >
                   <CurrentView view={view} />
