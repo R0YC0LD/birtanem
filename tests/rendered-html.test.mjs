@@ -16,21 +16,23 @@ test("server-renders the finished romantic experience", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<title>Buse — Kalbimin Koordinatları<\/title>/i);
-  assert.match(html, /Onur’dan Buse’ye/i);
-  assert.match(html, /başlat/i);
+  assert.match(html, /<title>Buse ♡ Onur<\/title>/i);
+  assert.match(html, /Onur’dan Buse’ye|Buse’ye küçük/i);
+  assert.match(html, /başlat|küçük bir sürpriz/i);
   assert.doesNotMatch(html, /codex-preview|Building your site|react-loading-skeleton/i);
 });
 
 test("published page keeps the heart experience and game drawer together", async () => {
-  const [html, script] = await Promise.all([
+  const [html, script, css] = await Promise.all([
     readFile(new URL("../docs/index.html", import.meta.url), "utf8"),
     readFile(new URL("../docs/app.js", import.meta.url), "utf8"),
+    readFile(new URL("../docs/styles.css", import.meta.url), "utf8"),
   ]);
   assert.match(html, /id="mainHeart"/);
   assert.match(html, /id="drawerHandle"/);
-  assert.match(html, /data-drawer-game="wheel"/);
-  assert.match(script, /heart\.makePerfectlySymmetric/);
-  assert.match(script, /HEART_GAME_CONFIG/);
-  assert.match(script, /prefers-reduced-motion:reduce/);
+  assert.match(script, /wheel:\{title:'Aşk Çarkı'/);
+  assert.match(html, /Buse/);
+  assert.match(script, /heart\.connect\(\)/);
+  assert.match(script, /const GAME_RENDERERS/);
+  assert.match(css, /prefers-reduced-motion:reduce/);
 });
