@@ -118,26 +118,27 @@ export default function Home() {
       <div className="noise" /><div className="cursor-glow" />
       {!started && (
         <section className="intro" aria-label="Giriş">
-          <p className="eyebrow">SADECE BİR KİŞİ İÇİN</p>
+          <p className="eyebrow">ONUR’DAN · SADECE BİR KİŞİ İÇİN</p>
           <h1>Buse’ye küçük<br />bir sürpriz.</h1>
-          <p className="intro-copy">Bazı hisler cümlelere sığmıyor.<br />Ben de onları nokta nokta çizdim.</p>
+          <p className="intro-copy">Bazı hisler cümlelere sığmıyor.<br />Onur da onları haritada nokta nokta çizdi.</p>
           <button className="open-button" onClick={() => setStarted(true)}><span>başlat</span><i>→</i></button>
-          <p className="signature">senin için, her seferinde yeniden.</p>
+          <p className="signature">Onur’dan Buse’ye, her seferinde yeniden.</p>
         </section>
       )}
 
       {started && (<>
         <section className="story" aria-live="polite">
-          <header><span>B × ∞</span><button onClick={() => setSoundOn(v => !v)} aria-label="Sesi aç veya kapat">{soundOn ? "ses açık" : "sessiz"}</button></header>
+          <header><span>ONUR × BUSE</span><button onClick={() => setSoundOn(v => !v)} aria-label="Sesi aç veya kapat">{soundOn ? "ses açık" : "sessiz"}</button></header>
           <div className="coordinates"><span>41°01′</span><span>29°00′</span></div>
-          <canvas ref={canvasRef} aria-label="Noktalarla oluşan kalp ve Buse yazısı" />
+          <iframe className="map-frame" title="İstanbul haritası" src="https://www.openstreetmap.org/export/embed.html?bbox=28.70%2C40.86%2C29.32%2C41.22&layer=mapnik" />
+          <canvas ref={canvasRef} aria-label="Haritadaki noktalarla oluşan kalp ve Buse yazısı" />
           <div className={`message ${finished ? "visible" : ""}`}>
-            <p>Kalbimin bütün koordinatları</p>
-            <h2>sana çıkıyor.</h2>
+            <p>Onur’un kalbindeki bütün yollar</p>
+            <h2>Buse’ye çıkıyor.</h2>
             <button onClick={draw}>bir daha çiz <span>↻</span></button>
           </div>
           <div className="counter">{finished ? allPoints.length : "…"}<small>küçük nokta, tek bir isim.</small></div>
-          <footer><span>BUSENUR</span><p>aşağı kaydır ↓</p><span>♥</span></footer>
+          <footer><span>ONUR + BUSE</span><p>aşağı kaydır ↓</p><span>♥</span></footer>
         </section>
         <section className="poetry" aria-label="Busenur için akrostiş">
           <div className="poetry-head"><span>07 DİZE · TEK BİR HİS</span><h2>Sana söylemek<br />istediklerim var.</h2></div>
@@ -149,7 +150,7 @@ export default function Home() {
               <i>{"BUSENUR".slice(0, index + 1)}</i>
             </article>
           ))}
-          <div className="finale"><span>ve bütün yollar yine aynı yere çıkıyor</span><h2>BUSENUR</h2><p>Seni, kelimelerin yetmediği yerden seviyorum.</p><b>♥</b></div>
+          <div className="finale"><span>ve bütün yollar yine aynı yere çıkıyor</span><h2>ONUR + BUSE</h2><p>Seni, kelimelerin yetmediği yerden seviyorum.</p><b>♥</b></div>
         </section>
       </>)}
     </main>
